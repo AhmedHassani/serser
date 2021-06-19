@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "796914490971",
+    "firebase_url": "https://sens-e7060-default-rtdb.firebaseio.com",
+    "project_id": "sens-e7060",
+    "storage_bucket": "sens-e7060.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796914490971:android:2f88362ea868573561e97e",
+        "android_client_info": {
+          "package_name": "com.example.senser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796914490971-0k523svbqjpoor5bh24tofffdvcaercu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8ZW0HT4NtFnPK3dJUyVoE9SbDyCGifuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796914490971-0k523svbqjpoor5bh24tofffdvcaercu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "796914490971-j55bns1hb58hmtichoa8uvb7haa5p21j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.senser"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:senser/notification/db.dart';
+import 'package:senser/notification/model1.dart';
 
 import '../main.dart';
 
@@ -15,9 +17,13 @@ class _HomeViewState extends State<HomeView> {
   String _humidity="";
   String _rainy="";
   String _temp="";
+  String _window ="";
+  String _fan="";
+  String _light="";
   var _color =Color.fromRGBO(32, 36, 52,1);
-   bool isSwitched=false;
-   bool isSwitched1=false;
+   double _sizeIcon = 40;
+   double _sizeFont = 25;
+   double _sizeFontTitle = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -74,101 +80,55 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Expanded(child:  Column(
                       children: [
-                        Icon(Icons.ac_unit_outlined,size: 30,color: Colors.lightBlue,),
+                        Icon(Icons.ac_unit_outlined,size: _sizeIcon,color: Colors.lightBlue,),
                         Text("Humidity",style: TextStyle(color: Colors.white,fontSize: 17),),
                         Text("${_humidity}",style: TextStyle(color: Colors.white,fontSize: 13),)
                       ],
                     ),),
                     Expanded(child:  Column(
                       children: [
-                        Icon(Icons.waves_outlined,size: 30,color: Colors.cyan,),
+                        Icon(Icons.waves_outlined,size: _sizeIcon,color: Colors.cyan,),
                         Text("Rainy",style: TextStyle(color: Colors.white,fontSize: 17),),
                         Text(_rainy=="0"?"0%":"100%",style: TextStyle(color: Colors.white,fontSize: 13),)
                       ],
                     ),),
                     Expanded(child:  Column(
                       children: [
-                        Icon(Icons.thermostat_outlined,size: 30,color: Colors.redAccent,),
+                        Icon(Icons.thermostat_outlined,size: _sizeIcon,color: Colors.redAccent,),
                         Text("temperature",style: TextStyle(color: Colors.white,fontSize: 17),),
                         Text(_temp,style: TextStyle(color: Colors.white,fontSize: 13),)
                       ],
                     ),),
                   ],
                 ),
+                SizedBox(height: 20,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                       child: Container(
-                         margin: EdgeInsets.only(left: 12,top: 16,right: 6),
-                         width: 130,
-                         height: 100,
-                         color: Color.fromRGBO(27, 27, 48, 1),
-                         child: Column(
-                           children: [
-                             Padding(
-                               padding: const EdgeInsets.only(top: 8),
-                               child: Align(
-                                 alignment: Alignment.center,
-                                 child: Text("Fan",style: TextStyle(color: Colors.white,fontSize: 25),),
-                               ),
-                             ),
-                             Padding(
-                               padding: const EdgeInsets.all(1),
-                               child: Align(
-                                 alignment: Alignment.center,
-                                 child:Switch(
-                                   splashRadius: 145,
-                                   value: isSwitched,
-                                   onChanged: toggleSwitch,
-                                   activeColor: Colors.blue,
-                                   activeTrackColor: Colors.yellow,
-                                   inactiveThumbColor: Colors.redAccent,
-                                   inactiveTrackColor: Colors.orange,
-                                 )
-                               ),
-                             )
-                           ],
-                         )
-                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(right: 12,top: 16,left: 6),
-                        width: 130,
-                        height: 100,
-                        color: Color.fromRGBO(27, 28, 48, 1),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text("Window",style: TextStyle(color: Colors.white,fontSize: 25),),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(1),
-                              child: Align(
-                                  alignment: Alignment.center,
-                                  child:Switch(
-                                    splashRadius: 145,
-                                    value: isSwitched1,
-                                    onChanged: toggleSwitch1,
-                                    activeColor: Colors.blue,
-                                    activeTrackColor: Colors.yellow,
-                                    inactiveThumbColor: Colors.redAccent,
-                                    inactiveTrackColor: Colors.orange,
-                                  )
-                              ),
-                            )
-                          ],
-                        ),
-
-                      ),
-                    )
-
+                    Expanded(child:  Column(
+                      children: [
+                        Icon(Icons.sensor_window,size: _sizeIcon,color: Colors.green,),
+                        Text("Window",style: TextStyle(color: Colors.white,fontSize: 17),),
+                        Text(_window=="0"?"close":"open",style: TextStyle(color: Colors.white,fontSize: 13),)
+                      ],
+                    ),),
+                    Expanded(child:  Column(
+                      children: [
+                        Icon(Icons.stream,size: _sizeIcon,color: Colors.blueAccent,),
+                        Text("Fan",style: TextStyle(color: Colors.white,fontSize: 17),),
+                        Text(_fan=="0"?"close":"open",style: TextStyle(color: Colors.white,fontSize: 13),)
+                      ],
+                    ),),
+                    Expanded(child:  Column(
+                      children: [
+                        Icon(Icons.highlight,size: _sizeIcon,color: Colors.amber,),
+                        Text("Light",style: TextStyle(color: Colors.white,fontSize: 17),),
+                        Text(_light=="0"?"close":"open",style: TextStyle(color: Colors.white,fontSize: 13),)
+                      ],
+                    ),),
                   ],
-                )
+                ),
+
 
 
               ],
@@ -179,53 +139,20 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  void toggleSwitch(bool value) {
-    if(isSwitched == false) {
-      setState(() {
-        isSwitched = true;
-        //textValue = 'Switch Button is ON';
-        databaseReference.update({
-          'fan': '1',
-        });
-      });
-    }
-    else {
-      setState(() {
-        isSwitched = false;
-        databaseReference.update({
-          'fan': '0',
-        });
-      });
-      print('Switch Button is OFF');
-    }
-  }
-  void toggleSwitch1(bool value) {
-    if(isSwitched1 == false) {
-      setState(() {
-        isSwitched1 = true;
-        databaseReference.update({
-          'window': '1',
-        });
-      });
-    }
-    else {
-      setState(() {
-        isSwitched1 = false;
-        databaseReference.update({
-          'window': '0',
-        });
-      });
-    }
-  }
-
 
   @override
   void initState() {
     getData();
+    ModelNotifci item = new ModelNotifci(
+        title: "error",
+        bady: "sent",
+        time: '44'
+    );
+    DB.insert(ModelNotifci.table, item);
   }
 
   void getData(){
-      databaseReference.once().then((DataSnapshot snapshot) {
+    databaseReference.once().then((DataSnapshot snapshot) {
       print(snapshot.value);
       databaseReference.onChildChanged.listen((event) {
         var msg ="There is a fire in the house";
@@ -247,7 +174,9 @@ class _HomeViewState extends State<HomeView> {
         _humidity="${snapshot.value['Humidity']}";
         _rainy="${snapshot.value['rainy_sensor']}";
         _temp="${snapshot.value['tempC_sensor']}";
-
+        _window="${snapshot.value['window']}";
+        _light="${snapshot.value['light']}";
+        _fan="${snapshot.value['fan']}";
       });
     });
   }

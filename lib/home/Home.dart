@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:senser/device/deviceView.dart';
 import 'package:senser/home/HomeView.dart';
+import 'package:senser/notification/notifications.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,12 +14,8 @@ class _HomeState extends State<Home> {
   var _color =Color.fromRGBO(32, 36, 52,1);
   final List<Widget> _children = [
     HomeView(),
-    Center(
-      child: Text("2"),
-    ),
-    Center(
-      child: Text("2"),
-    ),
+    Device(),
+    Notifications(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -50,14 +48,14 @@ class _HomeState extends State<Home> {
             title: new Text('Home',style: TextStyle(color: _currentIndex==0?   Colors.yellow :Colors.white )),
           ),
           BottomNavigationBarItem(
-            icon: _currentIndex==1? new Icon(Icons.notifications,color:  Colors.yellow,size: 30) :new Icon(Icons.notifications,color: Colors.white,size: 25),
+            icon: _currentIndex==1? new Icon(Icons.widgets_outlined,color:  Colors.yellow,size: 30) :new Icon(Icons.widgets_outlined,color: Colors.white,size: 25),
             backgroundColor:  Colors.yellow,
-            title: new Text('Notification',style: TextStyle(color: _currentIndex==1?  Colors.yellow :Colors.white )),
+            title: new Text('Device',style: TextStyle(color: _currentIndex==1?  Colors.yellow :Colors.white )),
           ),
           BottomNavigationBarItem(
-              icon:  _currentIndex==2? Icon(Icons.settings,color:  Colors.yellow,size: 30):Icon(Icons.settings,color: Colors.white,size: 25),
+              icon:  _currentIndex==2? Icon(Icons.notifications,color:  Colors.yellow,size: 30):Icon(Icons.notifications,color: Colors.white,size: 25),
               backgroundColor:  Colors.yellow,
-              title: Text('Setting',style: TextStyle(color: _currentIndex==2?   Colors.yellow :Colors.white,),)
+              title: Text('notifications',style: TextStyle(color: _currentIndex==2?   Colors.yellow :Colors.white,),)
           )
         ],
       ),
